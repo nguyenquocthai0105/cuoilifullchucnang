@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>29-NguyenQuocThai-21135961</title>
+	<link th:href="@{~/styles/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{~/styles/main.css}" rel="stylesheet">
+	<style>
+		.container {
+			display: flex;
+		}
+
+		.footer {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 50;
+		}
+
+		.center {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.hh {
+			margin-left: 2dvh;
+			margin-right: 2dvh;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		.search {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.form-group {
+			margin-left: 3;
+			margin-right: 3;
+		}
+
+		.text-center {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.sua {
+			margin-right: 3dvh;
+		}
+		.btn{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="">
+		<div class="footer">
+			<div class="row col-md-10 ">
+				<h2 class="text-center"><i>29-NguyenQuocThai-21135961</i></h2>
+			</div>
+		</div>
+		<div class="center">
+			<h2><a href="/donhang" class="link">Danh sách đơn hàng</a></h2>
+			<h2 class="separator">|</h2>
+			<h2><a th:href="@{/donhang/add}" class="btn btn-primary">Thêm đơn hàng mới</a></h2>
+		</div>
+	</div>
+
+	<form action="#" th:action="@{/donhang/search}" method="get">
+		<div class="search">
+			<div class="form-group">
+				<label for="maDH">Ma hoa don:</label> <input type="text" id="maDH" name="maDH" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="ten">Ten cua hang:</label> <input type="text" id="ten" name="ten" class="form-control" />
+			</div>
+
+			<button type="submit" class="btn btn-primary form-control">Search</button>
+		</div>
+
+	</form>
+	<br />
+	<table class="table table-bordered table-hover">
+		<thead class="table-primary">
+			<tr>
+				<th>ID</th>
+				<th>Ma DH</th>
+				<th>Ten KH</th>
+				<th>Email</th>
+				<th>Ngay dat</th>
+				<th>Ten SP</th>
+				<th>Trang thai</th>
+				<th>Ma Cua Hang</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="donHang : ${listDonHang}">
+				<td th:text="${donHang.getId()}"></td>
+				<td th:text="${donHang.maDonHang}"></td>
+				<td th:text="${donHang.tenKhachHang}"></td>
+				<td th:text="${donHang.email}"></td>
+				<td th:text="${donHang.ngayDatHang}"></td>
+				<td th:text="${donHang.tenSp}"></td>
+				<td th:text="${donHang.trangThai}"></td>
+				<td th:text="${donHang.cuaHang.ten}"></td>
+				<td>
+					<div class="btn">
+						<div class="sua">
+							<a th:href="@{~/donhang/update/{id}(id=${donHang.id})}" class="btn btn-primary btn-sm"
+								title="Sua">Cập nhật
+							</a>
+						</div>
+						<form th:action="@{/donhang/delete/{id}(id=${donHang.id})}" method="post"
+							style="display:inline;">
+							<button type="submit" th:if="${donHang.trangThai == false}" class="btn btn-danger btn-sm"
+								title="Delete">Xóa</button>
+						</form>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row col-md-10">
+		<h2 class="text-center">29-NguyenQuocThai-21135961</h2>
+	</div>
+	</div>
+	</div>
+</body>
+
+</html>

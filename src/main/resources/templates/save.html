@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Luu don hang</title>
+	<link th:href="@{~/styles/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{~/styles/main.css}" rel="stylesheet">
+
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.center {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 20px;
+		}
+
+		.form-container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			background-color: #f9f9f9;
+		}
+
+		.form-group {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 15px;
+		}
+
+		.form-group label {
+			flex: 1;
+			text-align: right;
+			margin-right: 15px;
+		}
+
+		.form-group .form-control,
+		.form-group .form-check-input,
+		.form-group select {
+			flex: 2;
+		}
+
+		.footer {
+			margin-top: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="footer text-center">
+			<h2><i>29-NguyenQuocThai-21135961</i></h2>
+		</div>
+		<div class="center">
+			<h2><a href="/donhang" class="link">Danh sách đơn hàng</a></h2>
+			<h2 class="separator mx-3">|</h2>
+			<h2><a th:href="@{/donhang/add}" class="btn btn-primary">Thêm đơn hàng mới</a></h2>
+		</div>
+		<h2 class="text-center mb-4" th:text="${donHang.id != null ? 'THÊM ĐƠN HÀNG' : 'SỬA ĐƠN HÀNG'}"></h2>
+
+		<div class="form-container">
+			<form th:action="@{${donHang.id != null ? '/donhang/update/' + donHang.id : '/donhang/add'}}" method="post"
+				th:object="${donHang}">
+				<div class="form-group">
+					<label for="maDonHang">Ma DH:</label> <input type="text" id="maDonHang" name="maDonHang"
+						th:value="*{maDonHang}" class="form-control" readonly="{donHang.id != null}"/>
+					<p th:errors="*{maDonHang}" class="text-danger" th:if="${#fields.hasErrors('maDonHang')}"></p>
+				</div>
+				<div class="form-group">
+					<label for="tenKhachHang">Tên Khách Hàng:</label>
+					<input type="text" id="tenKhachHang" name="tenKhachHang" th:value="*{tenKhachHang}"
+						class="form-control" />
+					<p th:errors="*{tenKhachHang}" class="text-danger" th:if="${#fields.hasErrors('tenKhachHang')}"></p>
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" th:value="email" class="form-control" />
+					<p th:errors="*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+				</div>
+
+				<div class="form-group">
+					<label for="ngayDatHang">Ngày Đặt Hàng:</label>
+					<input type="date" id="ngayDatHang" name="ngayDatHang" th:value="*{ngayDatHang}"
+						class="form-control" />
+					<p th:errors="*{ngayDatHang}" class="text-danger" th:if="${#fields.hasErrors('ngayDatHang')}"></p>
+				</div>
+
+				<div class="form-group">
+					<label for="tenSp">Tên Sản Phẩm:</label>
+					<input type="text" id="tenSp" name="tenSp" th:value="*{tenSp}" class="form-control" />
+					<p th:errors="*{tenSp}" class="text-danger" th:if="${#fields.hasErrors('tenSp')}"></p>
+				</div>
+
+				<div class="form-group">
+					<label>Trạng Thái:</label><br>
+					<!-- Radio button cho "Chấp Nhận" -->
+					<div class="form-check form-check-inline">
+						<input type="radio" id="isAccepted" name="trangThai" th:value="true"
+							th:checked="${donHang.isTrangThai == true}" class="form-check-input" />
+						<label for="isAccepted" class="form-check-label">Chấp Nhận</label>
+					</div>
+
+					<!-- Radio button cho "Chưa Chấp Nhận" -->
+					<div class="form-check form-check-inline">
+						<input type="radio" id="isNotAccepted" name="trangThai" th:value="false"
+							th:checked="${donHang.isTrangThai == false}" class="form-check-input" />
+						<label for="isNotAccepted" class="form-check-label">Chưa Chấp Nhận</label>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="cuaHang_id">Cửa Hàng:</label>
+					<select id="cuaHang_id" name="cuaHang_id" class="form-control" th:field="*{cuaHang.id}">
+						<option th:each="cuaHang : ${cuaHangList}" th:value="${cuaHang.id}" th:text="${cuaHang.ten}"
+							th:selected="*{cuaHang.id == cuaHang.id}"></option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary w-100">Submit</button>
+			</form>
+		</div>
+	</div>
+</body>
